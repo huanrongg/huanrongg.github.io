@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://ihuanrong.github.io/Hexo/hexo-theme-beantech/</loc>
+        <lastmod>2019-04-27T07:53:25.712Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://ihuanrong.github.io/article/Autonomous-driving-Car-detection/</loc>
         <lastmod>2019-04-25T14:12:40.213Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -31,16 +39,8 @@
     </url>
 
     <url>
-        <loc>http://ihuanrong.github.io/article/support-LaTex-in-blog/</loc>
+        <loc>http://ihuanrong.github.io/Hexo/support-LaTex-in-blog/</loc>
         <lastmod>2019-04-25T02:30:34.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://ihuanrong.github.io/article/hexo-theme-beantech/</loc>
-        <lastmod>2019-04-19T09:44:35.715Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
