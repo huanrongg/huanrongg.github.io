@@ -2,56 +2,56 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/LaTex/</loc>
+        <loc>http://huanrongg.github.io/tags/LaTex/</loc>
         <lastmod>2019-04-25T02:30:34.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/NLP/</loc>
+        <loc>http://huanrongg.github.io/tags/NLP/</loc>
         <lastmod>2019-04-25T05:22:37.791Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/python/</loc>
+        <loc>http://huanrongg.github.io/tags/python/</loc>
         <lastmod>2019-04-25T06:42:56.075Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/%E5%BC%80%E5%8F%91/</loc>
+        <loc>http://huanrongg.github.io/tags/%E5%BC%80%E5%8F%91/</loc>
         <lastmod>2019-04-25T06:42:56.075Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/CV/</loc>
+        <loc>http://huanrongg.github.io/tags/CV/</loc>
         <lastmod>2019-04-25T14:12:40.213Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/Deep-Learning/</loc>
+        <loc>http://huanrongg.github.io/tags/Deep-Learning/</loc>
         <lastmod>2019-04-25T14:12:40.213Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/Hexo/</loc>
+        <loc>http://huanrongg.github.io/tags/Hexo/</loc>
         <lastmod>2019-04-27T07:53:25.712Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://huanrongg.gitee.io/blog/tags/Blog/</loc>
+        <loc>http://huanrongg.github.io/tags/Blog/</loc>
         <lastmod>2019-04-27T07:53:25.712Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
