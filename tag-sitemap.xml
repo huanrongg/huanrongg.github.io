@@ -30,13 +30,6 @@
     </url>
 
     <url>
-        <loc>http://huanrongg.github.io/tags/CV/</loc>
-        <lastmod>2019-04-29T12:59:02.109Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://huanrongg.github.io/tags/Deep-Learning/</loc>
         <lastmod>2019-04-29T12:59:02.109Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -58,8 +51,15 @@
     </url>
 
     <url>
+        <loc>http://huanrongg.github.io/tags/CV/</loc>
+        <lastmod>2019-04-29T14:11:00.816Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>http://huanrongg.github.io/tags/CNN/</loc>
-        <lastmod>2019-04-29T14:10:00.208Z</lastmod>
+        <lastmod>2019-04-29T14:11:00.816Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
