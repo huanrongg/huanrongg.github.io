@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          使用Python遇到的问题 - HuanRong|换容的个人网站
+          CNN Case Study - HuanRong|换容的个人网站
         
     </title>
 
-    <link rel="canonical" href="http://huanrongg.github.io/article/python-basic/">
+    <link rel="canonical" href="http://huanrongg.github.io/article/CNN-case-study/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('https://photos-1259126563.cos.ap-shanghai.myqcloud.com/header/ai-1.jpg')
+            background-image: url('https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/sunset.jpg')
             /*post*/
         
     }
@@ -88,16 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#python" title="python">python</a>
-                            
-                              <a class="tag" href="/tags/#开发" title="开发">开发</a>
+                              <a class="tag" href="/tags/#CNN" title="CNN">CNN</a>
                             
                         </div>
-                        <h1>使用Python遇到的问题</h1>
-                        <h2 class="subheading"></h2>
+                        <h1>CNN Case Study</h1>
+                        <h2 class="subheading">常见CNN模型总结</h2>
                         <span class="meta">
                             Posted by huanrong on
-                            2018-11-21
+                            2019-04-29
                         </span>
 						</br>
 						<!--<span class="meta">							
@@ -229,97 +227,82 @@
                 post-container">
 
                 <blockquote>
-<p>最近在学校的发展规划处参加了一小部分代码的编写工作，还好python还算简单，磕磕绊绊也算是把任务完成了。但是在毫无Python编程基础的情况下，开发过程中难免遇到问题。下面是我在程序编写的过程中遇到的问题，有些是对Python语言特性不熟悉而产生的问题，有些是自己对代码逻辑没搞懂而遇到的问题。</p>
+<p>本文根据《计算机与智能硬件体系结构》课程所介绍的几个经典CNN网络整理而成。</p>
 </blockquote>
-<h1 id="1-用python操作excel">1 用Python操作Excel</h1>
+<h1 id="alexnet">AlexNet</h1>
+<h2 id="网络结构">网络结构</h2>
+<p><img src="https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/Image%20%5B2%5D.png" alt=""></p>
+<p><img src="https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/Image%20%5B3%5D.png" alt=""></p>
+<p>不算输入层，总共为8层。</p>
+<p><strong>第一层</strong><br>
+$227×227×3$（原图中223应该为笔误）的图像；卷积核数量为96，用两个GPU各计算一半；步长为4；padding=0，表示不补充边缘。<br>
+卷积后的图像大小为：$w =h= \lfloor \frac{227-11}{4} + 1 \rfloor = 55$；维度（dimension）为：96。</p>
+<p>然后做了一次Local Response Normalized。池化层pool_size = $(3, 3)$, stride = 2, padding = 0。最终获得第一层卷积的feature map，输出的大小为$27 \times 27 \times 96$。</p>
+<p><strong>第二层</strong><br>
+输入为第一层的<code>feature map</code><br>
+卷积核大小为 $3 \times 3 \times 48$；卷积核数量为256，其中两个GPU各有128个卷积核；pad = 2, stride = 1。<br>
+进行LRN，池化层pool_size = $(3, 3)$, stride = 2<br>
+输出大小$13 \times 13 \times 256$。<br>
+计算过程如下：<br>
+$w_1 =h_1 = \lfloor \frac{27+2 -3}{1} + 1 \rfloor = 27$<br>
+$w_2 =h_2 = \lfloor \frac{27-3}{2} + 1 \rfloor = 13$<br>
+注意此处的<code>pad</code>与吴恩达深度学习课程中的<code>padding</code>含义不同。</p>
+<p><strong>第三层</strong><br>
+输入为第二层的输出，卷积核个数为384，kernel_size = $3 \times 3 \times 256$, padding = 1，第三层没有做LRN和pooling。</p>
+<p><strong>第四层</strong><br>
+输入为第三层的输出，卷积核个数为384, kernel_size = $3 \times 3$, padding = 1, 和第三层一样，没有LRN和Pool</p>
+<p><strong>第五层</strong><br>
+输入为第四层的输出，卷积核个数为256, kernel_size = $3 \times 3$, padding = 1, 然后进行max_pooling, pool_size = (3, 3), stride = 2。<br>
+输出大小：$6 \times 6 \times 256$<br>
+$\lfloor {\frac{13-3}{2}} \rfloor +1 = 6$<br>
+(MathJax解析不了\over，调试了好久……)</p>
+<p><strong>第六层</strong><br>
+采用的滤波器的尺寸 $(6 \times 6 \times 256)$ 和待处理的feature map的尺寸$(6\times 6\times 256)$相同，即每个$(6 \times 6 \times 256)$ 尺寸的滤波器对第六层的输入数据进行卷积运算生成一个运算结果，通过一个神经元输出这个运算结果。<br>
+共有4096个这样尺寸的滤波器对输入数据进行卷积，通过4096个神经元的输出运算结果；然后通过ReLU激活函数以及dropout运算输出4096个本层的输出结果值。</p>
+<p><strong>第七、八层</strong><br>
+全连接层。最后经过一个softmax生成1000维的输出。全连接层中使用了RELU和Dropout。</p>
+<p><img src="https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/Image%20%5B4%5D.png" alt=""><br>
+（在单GPU下的网络结构图）</p>
+<h2 id="local-response-normalization局部响应归一化">Local Response Normalization(局部响应归一化)</h2>
+<p>在神经网络中，用<code>激活函数</code>将神经元的输出做一个非线性映射。tanh和sigmoid这样的传统激活函数值域都是有范围的，但是ReLU激活函数值域没有区间，因此需要对ReLU得到的结果进行归一化。</p>
+<p>论文中应用的局部归一化公式为：<br>
+$$b^i_{(x,y)} = \frac{a^i_{(x,y)}} {k+\alpha<br>
+\displaystyle\sum_{j=max(0,i-n/2)}^{min(N-1,i+n/2)}((a_{(x,y)}^j)^2)^ \beta}$$</p>
+<p>类似于最大最小归一化。<br>
+假设有一个向量 $X = [x_1, x_2, …, x_n]$<br>
+那么将所有的数归一化到0-1之间的归一化规则是：$x_i = \frac{x_i}{x_{max} - x_{min}}$</p>
+<p>但此处为什么分母是平方和我还没弄清楚（或许是为了让$b^i_{(x,y)}$更小，更容易落入(0,1)的区间？）。</p>
+<p>参数$\alpha, \beta, k$在验证集中确定，最终结果为：$k=2, n=5, \alpha=10^{-4}, \beta = 0.75$</p>
+<h2 id="overlapping-pooling覆盖的池化操作">Overlapping Pooling(覆盖的池化操作)</h2>
+<p>在top-1，和top-5中使用覆盖的池化操作分别将error rate降低了0.4%和0.3%。论文中说，在训练模型过程中，覆盖的池化层更不容易过拟合。</p>
+<h2 id="如何防止overfitting">如何防止Overfitting</h2>
+<h3 id="data-augmentation">Data Augmentation</h3>
+<p>数据扩张也是一个值得研究的领域，只需要对原始的数据进行合适的变换（如剪切、翻转、改变像素值等操作），就可以获得更多的数据集，以防止过拟合。论文中就是从$256\times 256$大小的图片中随机提出$227\times 227$的patches来实现的。（最近实验室项目也正在研究这个问题，场景是产生足够多带标签的物品的图片，以进行文字识别）</p>
+<h3 id="dropout">Dropout</h3>
+<p>在全连接层中去掉了一些神经节点，达到防止过拟合的目的</p>
+<p><a href="https://blog.csdn.net/stdcoutzyx/article/details/49022443" target="_blank" rel="noopener">理解dropout</a></p>
+<h1 id="vggnet">VGGNet</h1>
 <hr>
-<h2 id="11-读">1.1 读</h2>
-<pre><code class="language-python">import xlrd
- 
-cwd = os.getcwd()
- 
-FilePath = cwd + &quot;\\file.xls&quot;
-File = xlrd.open_workbook(FilePath)
-sheet = File.sheet_by_index(0)
- 
-#获得某个cell的值
-sheet.cell_value(x, y)
-</code></pre>
-<h2 id="12-写">1.2 写</h2>
-<pre><code class="language-python">import xlwt
- 
-FilePath = cwd + &quot;\\file.xls&quot;
-File = xlwt.Workbook(encoding = 'utf-8', style_compression = 0)
-sheet = File.add_sheet('sheet0', cell_overwrite_ok = True)
-
-#写单元格
-sheet.write(x, y, content, style)
- 
-#单元格合并
-sheet.write_merge(x1, x2, y1, y2, content, style)
-#即合并x1到x2列、y1到y2行（含x2与y2）的单元格，网上解释的十分复杂，但是逻辑非常简单的
- 
-File.save(FilePath)
-#注意最后一定要保存！
-</code></pre>
-<h2 id="13-单元格样式">1.3 单元格样式</h2>
-<blockquote>
-<p>若直接以style()作为write的参数，每次运行一行write都会创建一个新的style对象，程序会报错，比较保险的方法是在使用之前先创建一个style对象，用的使用直接使用style对象作为参数传入即可。</p>
-</blockquote>
-<pre><code class="language-python">StyleDefault = style()
-sheet1.write(0,0, content1, StyleDefault)
-sheet1.write(1,1, content2, StyleDefault)
-sheet1.write(2,2, content3, StyleDefault)
- 
-#设置单元格宽、高
-sheet.col(1).width = 4000
-sheet.row(1).height = 3000
-</code></pre>
-<h1 id="2-python特性">2 Python特性</h1>
-<hr>
-<h2 id="21-自加自减">2.1 自加/自减</h2>
-<p>编写代码过程中发现Python并没有其他语言中很常见的++、–运算符，于是查了资料，才知道python是以内容为基准的，而不像C/C++以变量为基准，同一个数字5可以用多个名称来访问，a=5和b=5指向的都是同一个对象（可以使用id()观察发现）。这样的逻辑就决定了数字类型的值是无法改变的，也就无法使用自增自减运算符。<br>
-正确的自增：</p>
-<pre><code class="language-Python">a = a + 1 / a += 1 
-</code></pre>
-<p>其中，python有个整数池，默认1～256的数字都属于这个整数池，这些每次赋值的时候，是取得池中的整数对象。</p>
-<h2 id="22-is-与">2.2 is 与 ==</h2>
-<p>若is是True的，那么==的结果也为True<br>
-is compares for two objects in memory, == compares their values</p>
-<h2 id="23-数组的初始化">2.3 数组的初始化</h2>
-<p>Python中不能直接使用一个没有初始化的数组，一维数组的初始化比较简单，直接用0代表初始元素即可，如a = [0] * 10。二维数组的初始化主要有这几种方式：</p>
-<pre><code class="language-Python">[([0] * 3) for i in range(4)]
-[[0 for col in range(3)] for row in range(4)] 
-</code></pre>
-<p>创建一个4行3列的二维数组</p>
-<h2 id="24-关于list">2.4 关于List</h2>
-<p>Python中的List与Array不同，同一个List里的元素数据类型可以不同，其实它保存的就是指针的集合，而非数据本身。Array是numpy当中封装的，转换关系如下：</p>
-<pre><code class="language-python">a=np.array([1,2,3,4,5])         #List转换为Array
-b=np.array([[1,2,3],[4,5,6]])   #List转换为二维Array
-c=list(a)                       #Array转换为List
-</code></pre>
-<p>List的排序方法是sort()，如果要降序排序，则需要添加一个(reverse=True)参数，如：list1.sort(reverse=True)</p>
-<p>当List作为参数传入一个函数时，是作为实参传入的，如果在函数内操作该List时，原来的List也会发生变化，要生成这个List的副本，使用copy()方法即可，如list2 = list1.copy()</p>
-<h2 id="25-循环操作">2.5 循环操作</h2>
-<p>比较常用的是for循环，与其他语言的循环语句不同，Python的循环语句是“for i in range(10)”或“for i in range(0, 10)”的形式，要注意的是后一个参数是不包括在判断当中的，相当于“for(i = 0, i &lt; 10; i++)”。若要遍历一个List当中的元素同时获得该元素对应的index，则需要使用“for i, item in enumerate(List1)”的格式。</p>
-<h2 id="26-小数输出为百分号格式">2.6 小数输出为百分号格式</h2>
-<pre><code class="language-python">decimal = &quot;%.2f%%&quot; % (num * 100)
-</code></pre>
-<p>主要先是这些问题，日后想到再补充……</p>
-
+<p>Reference</p>
+<ol>
+<li><a href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf" target="_blank" rel="noopener">ImageNet Classification with Deep Convolutional Neural Networks</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22659166" target="_blank" rel="noopener">机器学习进阶笔记之三 | 深入理解Alexnet</a><br>
+3 <a href="https://blog.csdn.net/luoluonuoyasuolong/article/details/81750190" target="_blank" rel="noopener">深入理解AlexNet网络</a></li>
+</ol>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML">
+</script>
                 
 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/sequence-models-dlai/" data-toggle="tooltip" data-placement="top" title="Sequence Models">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/Hexo/hexo-theme-beantech/" data-toggle="tooltip" data-placement="top" title="[Hexo] Theme BeanTech">Next Post &rarr;</a>
+                            <a href="/article/Autonomous-driving-Car-detection/" data-toggle="tooltip" data-placement="top" title="Autonomous driving - Car detection">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -375,7 +358,7 @@ c=list(a)                       #Array转换为List
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-用python操作excel"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1 &#x7528;Python&#x64CD;&#x4F5C;Excel</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#11-读"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1.1 &#x8BFB;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#12-写"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">1.2 &#x5199;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#13-单元格样式"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">1.3 &#x5355;&#x5143;&#x683C;&#x6837;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-python特性"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2 Python&#x7279;&#x6027;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#21-自加自减"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">2.1 &#x81EA;&#x52A0;/&#x81EA;&#x51CF;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-is-与"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">2.2 is &#x4E0E; ==</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#23-数组的初始化"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">2.3 &#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#24-关于list"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">2.4 &#x5173;&#x4E8E;List</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#25-循环操作"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">2.5 &#x5FAA;&#x73AF;&#x64CD;&#x4F5C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#26-小数输出为百分号格式"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">2.6 &#x5C0F;&#x6570;&#x8F93;&#x51FA;&#x4E3A;&#x767E;&#x5206;&#x53F7;&#x683C;&#x5F0F;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#alexnet"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">AlexNet</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#网络结构"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x7F51;&#x7EDC;&#x7ED3;&#x6784;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#local-response-normalization局部响应归一化"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Local Response Normalization(&#x5C40;&#x90E8;&#x54CD;&#x5E94;&#x5F52;&#x4E00;&#x5316;)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#overlapping-pooling覆盖的池化操作"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Overlapping Pooling(&#x8986;&#x76D6;&#x7684;&#x6C60;&#x5316;&#x64CD;&#x4F5C;)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如何防止overfitting"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x5982;&#x4F55;&#x9632;&#x6B62;Overfitting</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#data-augmentation"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">Data Augmentation</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#dropout"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">Dropout</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#vggnet"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">VGGNet</span></a></li></ol>
         
         </div>
       </aside>
@@ -395,9 +378,7 @@ c=list(a)                       #Array转换为List
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#python" title="python">python</a>
-                        
-                          <a class="tag" href="/tags/#开发" title="开发">开发</a>
+                          <a class="tag" href="/tags/#CNN" title="CNN">CNN</a>
                         
                     </div>
                 </section>

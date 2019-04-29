@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://huanrongg.github.io/article/CNN-case-study/</loc>
+        <lastmod>2019-04-29T14:09:08.097Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://huanrongg.github.io/article/python-basic/</loc>
         <lastmod>2019-04-29T12:59:13.858Z</lastmod>
         <changefreq>weekly</changefreq>
