@@ -5,8 +5,8 @@ $(document).ready(function() {
  * Wrap images with fancybox support.
  */
 function wrapImageWithFancyBox() {
-    $('img').not('.sidebar-image img').not('#author-avatar img').not(".mdl-menu img").not(".something-else-logo img").each(function() {
-        var $image = $(this);
+    $('img').not('.sidebar-image img').not('#avatar img').not(".mdl-menu img").not(".something-else-logo img").each(function(i) {
+		var $image = $(this);
         var imageCaption = $image.attr('alt');
         var $imageWrapLink = $image.parent('a');
         if ($imageWrapLink.size() < 1) {
