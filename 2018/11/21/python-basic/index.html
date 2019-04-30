@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          [Hexo] Theme BeanTech - HuanRong|换容的个人网站
+          使用Python遇到的问题 - HuanRong|换容的个人网站
         
     </title>
 
-    <link rel="canonical" href="http://huanrongg.github.io/Hexo/hexo-theme-beantech/">
+    <link rel="canonical" href="http://huanrongg.github.io/2018/11/21/python-basic/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('Demo.png')
+            background-image: url('https://photos-1259126563.cos.ap-shanghai.myqcloud.com/header/ai-1.jpg')
             /*post*/
         
     }
@@ -88,16 +88,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+                              <a class="tag" href="/tags/#python" title="python">python</a>
                             
-                              <a class="tag" href="/tags/#Blog" title="Blog">Blog</a>
+                              <a class="tag" href="/tags/#开发" title="开发">开发</a>
                             
                         </div>
-                        <h1>[Hexo] Theme BeanTech</h1>
-                        <h2 class="subheading">This is hexo theme Demo.</h2>
+                        <h1>使用Python遇到的问题</h1>
+                        <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by huanrong on
-                            2017-03-18
+                            2018-11-21
                         </span>
 						</br>
 						<!--<span class="meta">							
@@ -151,20 +151,6 @@
 
                         
                         <li>
-                            <a href="/about/">关于我</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/gallery/">回忆</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">归档</a>
                         </li>
                         
@@ -172,7 +158,21 @@
 
                         
                         <li>
+                            <a href="/about/">关于我</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/gallery/">回忆</a>
                         </li>
                         
                     
@@ -229,59 +229,83 @@
                 post-container">
 
                 <blockquote>
-<p>Ported Theme of <a href="https://github.com/Huxpro/huxpro.github.io" target="_blank" rel="noopener">Hux Blog</a>, Thank <a href="https://github.com/Huxpro" target="_blank" rel="noopener">Huxpro</a> for designing such a flawless theme.</p>
-<p>This BeanTech theme created by <a href="http://beantech.org" target="_blank" rel="noopener">YuHsuan</a> modified from the original Porter <a href="http://kaijun.rocks/hexo-theme-huxblog/" target="_blank" rel="noopener">Kaijun</a></p>
+<p>最近在学校的发展规划处参加了一小部分代码的编写工作，还好python还算简单，磕磕绊绊也算是把任务完成了。但是在毫无Python编程基础的情况下，开发过程中难免遇到问题。下面是我在程序编写的过程中遇到的问题，有些是对Python语言特性不熟悉而产生的问题，有些是自己对代码逻辑没搞懂而遇到的问题。</p>
 </blockquote>
-<h1 id="live-demo"><a href="http://beantech.org" target="_blank" rel="noopener">Live Demo</a></h1>
+<h1 id="1-用python操作excel">1 用Python操作Excel</h1>
 <hr>
-<p><img src="http://beantech.org/img/beantech-desktop.png" alt="BeanTech Desktop"></p>
-<h1 id="usage">Usage</h1>
+<h2 id="11-读">1.1 读</h2>
+<pre><code class="language-python">import xlrd
+ 
+cwd = os.getcwd()
+ 
+FilePath = cwd + &quot;\\file.xls&quot;
+File = xlrd.open_workbook(FilePath)
+sheet = File.sheet_by_index(0)
+ 
+#获得某个cell的值
+sheet.cell_value(x, y)
+</code></pre>
+<h2 id="12-写">1.2 写</h2>
+<pre><code class="language-python">import xlwt
+ 
+FilePath = cwd + &quot;\\file.xls&quot;
+File = xlwt.Workbook(encoding = 'utf-8', style_compression = 0)
+sheet = File.add_sheet('sheet0', cell_overwrite_ok = True)
+
+#写单元格
+sheet.write(x, y, content, style)
+ 
+#单元格合并
+sheet.write_merge(x1, x2, y1, y2, content, style)
+#即合并x1到x2列、y1到y2行（含x2与y2）的单元格，网上解释的十分复杂，但是逻辑非常简单的
+ 
+File.save(FilePath)
+#注意最后一定要保存！
+</code></pre>
+<h2 id="13-单元格样式">1.3 单元格样式</h2>
+<blockquote>
+<p>若直接以style()作为write的参数，每次运行一行write都会创建一个新的style对象，程序会报错，比较保险的方法是在使用之前先创建一个style对象，用的使用直接使用style对象作为参数传入即可。</p>
+</blockquote>
+<pre><code class="language-python">StyleDefault = style()
+sheet1.write(0,0, content1, StyleDefault)
+sheet1.write(1,1, content2, StyleDefault)
+sheet1.write(2,2, content3, StyleDefault)
+ 
+#设置单元格宽、高
+sheet.col(1).width = 4000
+sheet.row(1).height = 3000
+</code></pre>
+<h1 id="2-python特性">2 Python特性</h1>
 <hr>
-<p>I publish the whole project for your convenience, so you can just follow the instruction down below, then you can easily customiz your own blog!</p>
-<p>Let’s begin!!!</p>
-<h2 id="init">Init</h2>
-<hr>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/YenYuHsuan/hexo-theme-beantech.git ./hexo-beantech</span><br><span class="line"><span class="built_in">cd</span> hexo-beantech</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<h2 id="modify">Modify</h2>
-<hr>
-<p>Modify <code>_config.yml</code> file with your own info.<br>
-Especially the section:</p>
-<h3 id="deployment">Deployment</h3>
-<p>Replace to your own repo!</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/&lt;yourAccount&gt;/&lt;repo&gt;</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">&lt;your-branch&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="sidebar-settings">Sidebar settings</h3>
-<p>Copy your avatar image to <code>&lt;root&gt;/img/</code> and modify the <code>_config.yml</code>:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidebar:</span> <span class="literal">true</span>    <span class="comment"># whether or not using Sidebar.</span></span><br><span class="line"><span class="attr">sidebar-about-description:</span> <span class="string">"&lt;your description&gt;"</span></span><br><span class="line"><span class="attr">sidebar-avatar:</span> <span class="string">img/&lt;your</span> <span class="string">avatar</span> <span class="string">path&gt;</span></span><br></pre></td></tr></table></figure>
-<p>and activate your personal widget you like</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">widgets:</span>         <span class="comment"># here are widget you can use, you can comment out</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">featured-tags</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">short-about</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">recent-posts</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">friends-blog</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">archive</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">category</span></span><br></pre></td></tr></table></figure>
-<p>if you want to add sidebar widget, please add at <code>layout/_widget</code>.</p>
-<h3 id="signature-setup">Signature Setup</h3>
-<p>Copy your signature image to <code>&lt;root&gt;/img/signature</code> and modify the <code>_config.yml</code>:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">signature:</span> <span class="literal">true</span>   <span class="comment"># show signature</span></span><br><span class="line"><span class="attr">signature-img:</span> <span class="string">img/signature/&lt;your-signature-ID&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="go-to-top-icon-setup">Go to top icon Setup</h3>
-<p>My icon is using iron man, you can change to your own icon at <code>css/image</code>.</p>
-<h3 id="post-tag">Post tag</h3>
-<p>You can decide to show post tags or not.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">home_posts_tag:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p><img src="home_posts_tag-true.png" alt="home_posts_tag-true"></p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">home_posts_tag:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p><img src="home_posts_tag-false.png" alt="home_posts_tag-false"></p>
-<h3 id="markdown-render">Markdown render</h3>
-<p>My markdown render engine plugin is <a href="https://github.com/celsomiranda/hexo-renderer-markdown-it" target="_blank" rel="noopener">hexo-renderer-markdown-it</a>.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Markdown-it config</span></span><br><span class="line"><span class="comment">## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki</span></span><br><span class="line"><span class="attr">markdown:</span></span><br><span class="line"><span class="attr">  render:</span></span><br><span class="line"><span class="attr">    html:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    xhtmlOut:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    breaks:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    linkify:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    typographer:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    quotes:</span> <span class="string">'“”‘’'</span></span><br></pre></td></tr></table></figure>
-<p>and if you want to change the header anchor ‘ℬ’, you can go to <code>layout/post.ejs</code> to change it.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span>(<span class="string">"https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        anchors.options = &#123;</span><br><span class="line">          visible: <span class="string">'hover'</span>,</span><br><span class="line">          placement: <span class="string">'left'</span>,</span><br><span class="line">          icon: ℬ <span class="comment">// this is the header anchor "unicode" icon</span></span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="hexo-basics">Hexo Basics</h2>
-<hr>
-<p>Some hexo command:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">"&lt;post name&gt;"</span> <span class="comment"># you can change post to another layout if you want</span></span><br><span class="line">hexo clean &amp;&amp; hexo generate <span class="comment"># generate the static file</span></span><br><span class="line">hexo server <span class="comment"># run hexo in local environment</span></span><br><span class="line">hexo deploy <span class="comment"># hexo will push the static files automatically into the specific branch(gh-pages) of your repo!</span></span><br></pre></td></tr></table></figure>
-<h1 id="have-fun-_">Have fun ^_^</h1>
-<hr>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<!-- Place this tag where you want the button to render. -->
-<p>Please <a class="github-button" href="https://github.com/YenYuHsuan/hexo-theme-beantech" data-icon="octicon-star" aria-label="Star YenYuHsuan/hexo-theme-beantech on GitHub" target="_blank" rel="noopener">Star</a> this Project if you like it! <a class="github-button" href="https://github.com/YenYuHsuan" aria-label="Follow @YenYuHsuan on GitHub" target="_blank" rel="noopener">Follow</a> would also be appreciated!<br>
-Peace!</p>
+<h2 id="21-自加自减">2.1 自加/自减</h2>
+<p>编写代码过程中发现Python并没有其他语言中很常见的++、–运算符，于是查了资料，才知道python是以内容为基准的，而不像C/C++以变量为基准，同一个数字5可以用多个名称来访问，a=5和b=5指向的都是同一个对象（可以使用id()观察发现）。这样的逻辑就决定了数字类型的值是无法改变的，也就无法使用自增自减运算符。<br>
+正确的自增：</p>
+<pre><code class="language-Python">a = a + 1 / a += 1 
+</code></pre>
+<p>其中，python有个整数池，默认1～256的数字都属于这个整数池，这些每次赋值的时候，是取得池中的整数对象。</p>
+<h2 id="22-is-与">2.2 is 与 ==</h2>
+<p>若is是True的，那么==的结果也为True<br>
+is compares for two objects in memory, == compares their values</p>
+<h2 id="23-数组的初始化">2.3 数组的初始化</h2>
+<p>Python中不能直接使用一个没有初始化的数组，一维数组的初始化比较简单，直接用0代表初始元素即可，如a = [0] * 10。二维数组的初始化主要有这几种方式：</p>
+<pre><code class="language-Python">[([0] * 3) for i in range(4)]
+[[0 for col in range(3)] for row in range(4)] 
+</code></pre>
+<p>创建一个4行3列的二维数组</p>
+<h2 id="24-关于list">2.4 关于List</h2>
+<p>Python中的List与Array不同，同一个List里的元素数据类型可以不同，其实它保存的就是指针的集合，而非数据本身。Array是numpy当中封装的，转换关系如下：</p>
+<pre><code class="language-python">a=np.array([1,2,3,4,5])         #List转换为Array
+b=np.array([[1,2,3],[4,5,6]])   #List转换为二维Array
+c=list(a)                       #Array转换为List
+</code></pre>
+<p>List的排序方法是sort()，如果要降序排序，则需要添加一个(reverse=True)参数，如：list1.sort(reverse=True)</p>
+<p>当List作为参数传入一个函数时，是作为实参传入的，如果在函数内操作该List时，原来的List也会发生变化，要生成这个List的副本，使用copy()方法即可，如list2 = list1.copy()</p>
+<h2 id="25-循环操作">2.5 循环操作</h2>
+<p>比较常用的是for循环，与其他语言的循环语句不同，Python的循环语句是“for i in range(10)”或“for i in range(0, 10)”的形式，要注意的是后一个参数是不包括在判断当中的，相当于“for(i = 0, i &lt; 10; i++)”。若要遍历一个List当中的元素同时获得该元素对应的index，则需要使用“for i, item in enumerate(List1)”的格式。</p>
+<h2 id="26-小数输出为百分号格式">2.6 小数输出为百分号格式</h2>
+<pre><code class="language-python">decimal = &quot;%.2f%%&quot; % (num * 100)
+</code></pre>
+<p>主要先是这些问题，日后想到再补充……</p>
 
                 
 
@@ -290,9 +314,13 @@ Peace!</p>
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/python-basic/" data-toggle="tooltip" data-placement="top" title="使用Python遇到的问题">&larr; Previous Post</a>
+                            <a href="/2019/04/21/sequence-models-dlai/" data-toggle="tooltip" data-placement="top" title="Sequence Models">&larr; Previous Post</a>
                         </li>
                     
+                    
+                        <li class="next">
+                            <a href="/2017/03/18/hexo-theme-beantech/" data-toggle="tooltip" data-placement="top" title="[Hexo] Theme BeanTech">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -347,7 +375,7 @@ Peace!</p>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#live-demo"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="http://beantech.org" target="_blank" rel="noopener">Live Demo</a></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#usage"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Usage</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#init"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Init</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#modify"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Modify</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#deployment"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">Deployment</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#sidebar-settings"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">Sidebar settings</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#signature-setup"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">Signature Setup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#go-to-top-icon-setup"><span class="toc-nav-number">2.2.4.</span> <span class="toc-nav-text">Go to top icon Setup</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#post-tag"><span class="toc-nav-number">2.2.5.</span> <span class="toc-nav-text">Post tag</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#markdown-render"><span class="toc-nav-number">2.2.6.</span> <span class="toc-nav-text">Markdown render</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#hexo-basics"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Hexo Basics</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#have-fun-_"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Have fun ^_^</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-用python操作excel"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1 &#x7528;Python&#x64CD;&#x4F5C;Excel</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#11-读"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1.1 &#x8BFB;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#12-写"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">1.2 &#x5199;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#13-单元格样式"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">1.3 &#x5355;&#x5143;&#x683C;&#x6837;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-python特性"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2 Python&#x7279;&#x6027;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#21-自加自减"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">2.1 &#x81EA;&#x52A0;/&#x81EA;&#x51CF;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-is-与"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">2.2 is &#x4E0E; ==</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#23-数组的初始化"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">2.3 &#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#24-关于list"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">2.4 &#x5173;&#x4E8E;List</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#25-循环操作"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">2.5 &#x5FAA;&#x73AF;&#x64CD;&#x4F5C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#26-小数输出为百分号格式"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">2.6 &#x5C0F;&#x6570;&#x8F93;&#x51FA;&#x4E3A;&#x767E;&#x5206;&#x53F7;&#x683C;&#x5F0F;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -367,9 +395,9 @@ Peace!</p>
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+                          <a class="tag" href="/tags/#python" title="python">python</a>
                         
-                          <a class="tag" href="/tags/#Blog" title="Blog">Blog</a>
+                          <a class="tag" href="/tags/#开发" title="开发">开发</a>
                         
                     </div>
                 </section>
