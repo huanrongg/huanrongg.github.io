@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Sequence Models - HuanRong|换容的个人网站
+          CNN Case Study - HuanRong|换容的个人网站
         
     </title>
 
-    <link rel="canonical" href="http://huanrongg.github.io/2019/04/21/sequence-models-dlai/">
+    <link rel="canonical" href="http://huanrongg.github.io/2019/04/CNN-case-study/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/sunset.jpg')
+            background-image: url('https://photos-1259126563.cos.ap-shanghai.myqcloud.com/header/ai-1.jpg')
             /*post*/
         
     }
@@ -88,16 +88,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Deep Learning" title="Deep Learning">Deep Learning</a>
+                              <a class="tag" href="/tags/#CV" title="CV">CV</a>
                             
-                              <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                              <a class="tag" href="/tags/#CNN" title="CNN">CNN</a>
                             
                         </div>
-                        <h1>Sequence Models</h1>
-                        <h2 class="subheading">循环序列模型介绍</h2>
+                        <h1>CNN Case Study</h1>
+                        <h2 class="subheading">常见CNN模型总结</h2>
                         <span class="meta">
                             Posted by huanrong on
-                            2019-04-21
+                            2019-04-29
                         </span>
 						</br>
 						<!--<span class="meta">							
@@ -158,13 +158,6 @@
 
                         
                         <li>
-                            <a href="/about/">关于我</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/tags/">标签</a>
                         </li>
                         
@@ -173,6 +166,13 @@
                         
                         <li>
                             <a href="/gallery/">回忆</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">关于我</a>
                         </li>
                         
                     
@@ -228,39 +228,85 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="什么是序列模型">什么是序列模型</h1>
-<hr>
-<blockquote>
-<p>Sequences are a data structure where each example could be seen as a series of data points. This sentence: “I am currently reading an article about sequence modeling with Neural Networks” is an example that consists of multiple words and words depend on each other.</p>
+                <blockquote>
+<p>本文根据《计算机与智能硬件体系结构》课程所介绍的几个经典CNN网络整理而成。</p>
 </blockquote>
-<p>从上面的描述可以看出，序列模型有两个特点：1）可视为一连串的数据点；2）数据点之间相互依赖。</p>
-<p>以下是几个典型的序列数据：<br>
-<img src="1.png" alt="logo"></p>
-<p>而以上所有问题，都可以归为在训练集中标注X，Y的监督学习。</p>
-<h1 id="数学符号">数学符号</h1>
+<h1 id="alexnet">AlexNet</h1>
 <hr>
-<p>下图给出了以下内容的表示方法：1）句子中每个单词；2）输入/输出；3）输入/输出向量所含单词量。<br>
-如：$x^{(i)\lt t\gt}$表示第$i$个样本的时序序列中，第$t$个位置。不论是否为时序序列，都将用$t$来索引序列中的位置。</p>
-<p>To be continued…</p>
+<h2 id="网络结构">网络结构</h2>
+<p><img src="https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/Image%20%5B2%5D.png" alt=""></p>
+<p><img src="https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/Image%20%5B3%5D.png" alt=""></p>
+<p>不算输入层，总共为8层。</p>
+<p><strong>第一层</strong><br>
+$227×227×3$（原图中223应该为笔误）的图像；卷积核数量为96，用两个GPU各计算一半；步长为4；padding=0，表示不补充边缘。<br>
+卷积后的图像大小为：$w =h= \lfloor \frac{227-11}{4} + 1 \rfloor = 55$；维度（dimension）为：96。</p>
+<p>然后做了一次Local Response Normalized。池化层pool_size = $(3, 3)$, stride = 2, padding = 0。最终获得第一层卷积的feature map，输出的大小为$27 \times 27 \times 96$。</p>
+<p><strong>第二层</strong><br>
+输入为第一层的<code>feature map</code><br>
+卷积核大小为 $3 \times 3 \times 48$；卷积核数量为256，其中两个GPU各有128个卷积核；pad = 2, stride = 1。<br>
+进行LRN，池化层pool_size = $(3, 3)$, stride = 2<br>
+输出大小$13 \times 13 \times 256$。<br>
+计算过程如下：<br>
+$w_1 =h_1 = \lfloor \frac{27+2 -3}{1} + 1 \rfloor = 27$<br>
+$w_2 =h_2 = \lfloor \frac{27-3}{2} + 1 \rfloor = 13$<br>
+注意此处的<code>pad</code>与吴恩达深度学习课程中的<code>padding</code>含义不同。</p>
+<p><strong>第三层</strong><br>
+输入为第二层的输出，卷积核个数为384，kernel_size = $3 \times 3 \times 256$, padding = 1，第三层没有做LRN和pooling。</p>
+<p><strong>第四层</strong><br>
+输入为第三层的输出，卷积核个数为384, kernel_size = $3 \times 3$, padding = 1, 和第三层一样，没有LRN和Pool</p>
+<p><strong>第五层</strong><br>
+输入为第四层的输出，卷积核个数为256, kernel_size = $3 \times 3$, padding = 1, 然后进行max_pooling, pool_size = (3, 3), stride = 2。<br>
+输出大小：$6 \times 6 \times 256$<br>
+$\lfloor {\frac{13-3}{2}} \rfloor +1 = 6$<br>
+(MathJax解析不了\over，调试了好久……)</p>
+<p><strong>第六层</strong><br>
+采用的滤波器的尺寸 $(6 \times 6 \times 256)$ 和待处理的feature map的尺寸$(6\times 6\times 256)$相同，即每个$(6 \times 6 \times 256)$ 尺寸的滤波器对第六层的输入数据进行卷积运算生成一个运算结果，通过一个神经元输出这个运算结果。<br>
+共有4096个这样尺寸的滤波器对输入数据进行卷积，通过4096个神经元的输出运算结果；然后通过ReLU激活函数以及dropout运算输出4096个本层的输出结果值。</p>
+<p><strong>第七、八层</strong><br>
+全连接层。最后经过一个softmax生成1000维的输出。全连接层中使用了RELU和Dropout。</p>
+<p><img src="https://photos-1259126563.cos.ap-shanghai.myqcloud.com/post-img/Image%20%5B4%5D.png" alt=""><br>
+（在单GPU下的网络结构图）</p>
+<h2 id="local-response-normalization局部响应归一化">Local Response Normalization(局部响应归一化)</h2>
+<p>在神经网络中，用<code>激活函数</code>将神经元的输出做一个非线性映射。tanh和sigmoid这样的传统激活函数值域都是有范围的，但是ReLU激活函数值域没有区间，因此需要对ReLU得到的结果进行归一化。</p>
+<p>论文中应用的局部归一化公式为：<br>
+$$b^i_{(x,y)} = \frac{a^i_{(x,y)}} {k+\alpha<br>
+\displaystyle\sum_{j=max(0,i-n/2)}^{min(N-1,i+n/2)}((a_{(x,y)}^j)^2)^ \beta}$$</p>
+<p>类似于最大最小归一化。<br>
+假设有一个向量 $X = [x_1, x_2, …, x_n]$<br>
+那么将所有的数归一化到0-1之间的归一化规则是：$x_i = \frac{x_i}{x_{max} - x_{min}}$</p>
+<p>但此处为什么分母是平方和我还没弄清楚（或许是为了让$b^i_{(x,y)}$更小，更容易落入(0,1)的区间？）。</p>
+<p>参数$\alpha, \beta, k$在验证集中确定，最终结果为：$k=2, n=5, \alpha=10^{-4}, \beta = 0.75$</p>
+<h2 id="overlapping-pooling覆盖的池化操作">Overlapping Pooling(覆盖的池化操作)</h2>
+<p>在top-1，和top-5中使用覆盖的池化操作分别将error rate降低了0.4%和0.3%。论文中说，在训练模型过程中，覆盖的池化层更不容易过拟合。</p>
+<h2 id="如何防止overfitting">如何防止Overfitting</h2>
+<h3 id="data-augmentation">Data Augmentation</h3>
+<p>数据扩张也是一个值得研究的领域，只需要对原始的数据进行合适的变换（如剪切、翻转、改变像素值等操作），就可以获得更多的数据集，以防止过拟合。论文中就是从$256\times 256$大小的图片中随机提出$227\times 227$的patches来实现的。（最近实验室项目也正在研究这个问题，场景是产生足够多带标签的物品的图片，以进行文字识别）</p>
+<h3 id="dropout">Dropout</h3>
+<p>在全连接层中去掉了一些神经节点，达到防止过拟合的目的</p>
+<p><a href="https://blog.csdn.net/stdcoutzyx/article/details/49022443" target="_blank" rel="noopener">理解dropout</a></p>
+<h1 id="vggnet">VGGNet</h1>
+<hr>
+<hr>
+<p>Reference</p>
+<ol>
+<li><a href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf" target="_blank" rel="noopener">ImageNet Classification with Deep Convolutional Neural Networks</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22659166" target="_blank" rel="noopener">机器学习进阶笔记之三 | 深入理解Alexnet</a></li>
+<li><a href="https://blog.csdn.net/luoluonuoyasuolong/article/details/81750190" target="_blank" rel="noopener">深入理解AlexNet网络</a></li>
+</ol>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML">
 </script>
-
                 
 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/04/25/support-LaTex-in-blog/" data-toggle="tooltip" data-placement="top" title="在Blog中支持LaTex公式">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/11/21/python-basic/" data-toggle="tooltip" data-placement="top" title="使用Python遇到的问题">Next Post &rarr;</a>
+                            <a href="/2019/04/Autonomous-driving-Car-detection/" data-toggle="tooltip" data-placement="top" title="Autonomous driving - Car detection">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -316,7 +362,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#什么是序列模型"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x4EC0;&#x4E48;&#x662F;&#x5E8F;&#x5217;&#x6A21;&#x578B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#数学符号"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x6570;&#x5B66;&#x7B26;&#x53F7;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#alexnet"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">AlexNet</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#网络结构"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x7F51;&#x7EDC;&#x7ED3;&#x6784;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#local-response-normalization局部响应归一化"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Local Response Normalization(&#x5C40;&#x90E8;&#x54CD;&#x5E94;&#x5F52;&#x4E00;&#x5316;)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#overlapping-pooling覆盖的池化操作"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Overlapping Pooling(&#x8986;&#x76D6;&#x7684;&#x6C60;&#x5316;&#x64CD;&#x4F5C;)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如何防止overfitting"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x5982;&#x4F55;&#x9632;&#x6B62;Overfitting</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#data-augmentation"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">Data Augmentation</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#dropout"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">Dropout</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#vggnet"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">VGGNet</span></a></li></ol>
         
         </div>
       </aside>
@@ -336,9 +382,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Deep Learning" title="Deep Learning">Deep Learning</a>
+                          <a class="tag" href="/tags/#CV" title="CV">CV</a>
                         
-                          <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                          <a class="tag" href="/tags/#CNN" title="CNN">CNN</a>
                         
                     </div>
                 </section>
