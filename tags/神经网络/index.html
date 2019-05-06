@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          在Blog中支持LaTex公式 - HuanRong|换容的个人网站
+          HuanRong|换容的个人网站
         
     </title>
 
-    <link rel="canonical" href="http://huanrongg.github.io/2019/04/support-LaTex-in-blog/">
+    <link rel="canonical" href="http://huanrongg.github.io/tags/神经网络/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('https://photos-1259126563.cos.ap-shanghai.myqcloud.com/header/maxjax.png')
-            /*post*/
+            background-image: url('/img/header_img/archives-widget.jpg')
+            /*page*/
         
     }
     
@@ -85,27 +85,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="post-heading">
-                        <div class="tags">
-                            
-                              <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
-                            
-                              <a class="tag" href="/tags/#Blog" title="Blog">Blog</a>
-                            
-                              <a class="tag" href="/tags/#LaTex" title="LaTex">LaTex</a>
-                            
-                        </div>
-                        <h1>在Blog中支持LaTex公式</h1>
-                        <h2 class="subheading"></h2>
-                        <span class="meta">
-                            Posted by huanrong on
-                            2019-04-25
-                        </span>
-						</br>
-						<!--<span class="meta">							
-							 <span id="busuanzi_container_site_pv">本文浏览量： <span id="busuanzi_value_site_pv"></span></span>
-                        </span>-->
-						
+                    <div class="site-heading">
+						<h1>HuanRong's Blog</h1>
+                        <!--<h1>换容</h1>-->
+                        <hr class="small"></hr>
+                        <span class="subheading">换容|走在成为Geek的路上|一只爱折腾却不大靠谱的程序荣</span>
                     </div>
                 
 
@@ -217,260 +201,345 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                <!--<div align="middle"><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="https://music.163.com/song/media/outer/url?id=64556.mp3&auto=1&height=32"></iframe><div>-->
-<!-- require APlayer -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-<!-- require MetingJS -->
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-<p><meting-js server="netease" type="song" id="28815250" autoplay="true"><br>
-</meting-js></p>
-<blockquote>
-<p>因为公式在博客中不能显示的问题折腾了好几天，在网上找了不少方法，竟然无一能用。有的方法在server中可以显示公式，部署到github上仍旧是一串LateX代码。我猜这应该是js的渲染有问题，或者没有正确地加载js库。由于我不是前端程序员，背后的原理并没有弄得很懂。在我一筹莫展之时，得知在md文本中可以直接插入js代码，虽然简单粗暴，但的确行之有效，只在需要用到公式的文本中添加js代码也能很好地节约资源。</p>
-</blockquote>
-<h1 id="1-mathjax简介">1 MathJax简介</h1>
-<hr>
-<p>这里对数学符号用的渲染引擎是MathJax，使用MathJax可以方便的在浏览器中显示数学公式，它可以解析Latex、MathML和ASCIIMathML的标记语言。<br>
-关于MathJax以及LaTex的基础用法可以参考文章（时间关系，有空补充）：<br>
-<a href="https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference/5044" target="_blank" rel="noopener">MathJax basic tutorial and quick reference</a><br>
-<a href="https://www.cnblogs.com/linxd/p/4955530.html" target="_blank" rel="noopener">Mathjax与LaTex公式简介</a></p>
-<h1 id="2-在page中使用mathjax">2 在page中使用MathJax</h1>
-<hr>
-<ol>
-<li>
-<p>首先进入MathJax官网<br>
-<img src="1.png" alt=""></p>
-</li>
-<li>
-<p>在Documentation中选择 Learn more，并翻到下面的 “Jump to our docs”。<br>
-<img src="2.png" alt=""></p>
-</li>
-<li>
-<p>在出来的docs页面中找到如下实例代码，复制其中script标签内的内容，贴到你的markdown文本之中（我习惯放在最后）。<br>
-<img src="3.png" alt=""></p>
-</li>
-<li>
-<p>关键！把src的内容替换为</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML</span><br></pre></td></tr></table></figure>
-<p>所以最后的代码应为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;</span><br><span class="line">  MathJax.Hub.Config(&#123;tex2jax: &#123;inlineMath: [[&apos;$&apos;,&apos;$&apos;], [&apos;\\(&apos;,&apos;\\)&apos;]]&#125;&#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/javascript&quot; async src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML&quot;&gt;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="3-测试">3 测试</h1>
-<hr>
-<p>大功告成！来测试一下：</p>
-<p><strong>行间公式（使用displayed分隔符）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$\sum_&#123;i=0&#125;^n i^2 = \frac&#123;(n^2+n)(2n+1)&#125;&#123;6&#125;$$</span><br><span class="line"></span><br><span class="line">\\[\sum_&#123;i=0&#125;^n i^2 = \frac&#123;(n^2+n)(2n+1)&#125;&#123;6&#125;\\]</span><br></pre></td></tr></table></figure>
-<p>效果：<br>
-\[\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}\]</p>
-<p><strong>行内公式（使用inline分隔符）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$\sum_&#123;i=0&#125;^n i^2 = \frac&#123;(n^2+n)(2n+1)&#125;&#123;6&#125;$</span><br><span class="line"></span><br><span class="line">\\(\sum_&#123;i=0&#125;^n i^2 = \frac&#123;(n^2+n)(2n+1)&#125;&#123;6&#125;\\)</span><br></pre></td></tr></table></figure>
-<p>效果：<br>
-这是行内公式：$\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}$。</p>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-</script>
-<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML">
-</script>
-
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
                 
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 归档列表 -->
+            
+            
 
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/2019/04/Autonomous-driving-Car-detection/" data-toggle="tooltip" data-placement="top" title="Autonomous driving - Car detection">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/2019/04/sequence-models-dlai/" data-toggle="tooltip" data-placement="top" title="Sequence Models">Next Post &rarr;</a>
-                        </li>
-                    
+             <!-- 归档列表 -->
+
+            
+            <div class="one-tag-list">
+                <span class="fa fa-calendar-times-o listing-seperator" id="2019">
+                    <span class="tag-text">2019</span>
+                </span>
+                <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    05-06
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2019/05/numpy-softmax/" style="color: #0085a1">
+                        <span>
+                            使用numpy构建神经网络实现softmax多分类问题
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-29
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2019/04/CNN-case-study/" style="color: #0085a1">
+                        <span>
+                            CNN Case Study
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-25
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2019/04/Autonomous-driving-Car-detection/" style="color: #0085a1">
+                        <span>
+                            Autonomous driving - Car detection
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-25
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2019/04/support-LaTex-in-blog/" style="color: #0085a1">
+                        <span>
+                            在Blog中支持LaTex公式
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-21
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2019/04/sequence-models-dlai/" style="color: #0085a1">
+                        <span>
+                            Sequence Models
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
                 </ul>
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-calendar-times-o listing-seperator" id="2018">
+                    <span class="tag-text">2018</span>
+                </span>
+                <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    11-21
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2018/11/python-basic/" style="color: #0085a1">
+                        <span>
+                            使用Python遇到的问题
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                </ul>
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-calendar-times-o listing-seperator" id="2017">
+                    <span class="tag-text">2017</span>
+                </span>
+                <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    03-18
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2017/03/hexo-theme-beantech/" style="color: #0085a1">
+                        <span>
+                            [Hexo] Theme BeanTech
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                </ul>
+            </div>
+            
+
+
+        </div>
+    </div>
+</div>
 
                 <br>
 
-                <!--打赏-->
-                
-                <!--打赏-->
-
-                <br>
-                <!--分享-->
-                
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
-                    <!--  css & js -->
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-                
-                <!--分享-->
-                <br>                       
-                
                 <!-- require APlayer -->
                 
 
-                <!-- duoshuo Share start -->
+                <!-- 如果开启评论功能 -->
                 
-                <!-- 多说 Share end-->
-
-                <!-- 多说评论框 start -->
-                
-                <!-- 多说评论框 end -->
-
-                <!-- disqus comment start -->
-                
-                <!-- disqus comment end -->
-
-                
-
+				
             </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
             
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
-
-  
-    <style>
-      span.toc-nav-number{
-        display: none
-      }
-    </style>
-  
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
+            <a href="/tags/#CV" title="CV" rel="2">CV</a>
+            
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-mathjax简介"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1 MathJax&#x7B80;&#x4ECB;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-在page中使用mathjax"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2 &#x5728;page&#x4E2D;&#x4F7F;&#x7528;MathJax</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#3-测试"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">3 &#x6D4B;&#x8BD5;</span></a></li></ol>
+            
+            <a href="/tags/#Deep Learning" title="Deep Learning" rel="2">Deep Learning</a>
+            
         
-        </div>
-      </aside>
-    
-
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
-                        
-                          <a class="tag" href="/tags/#Blog" title="Blog">Blog</a>
-                        
-                          <a class="tag" href="/tags/#LaTex" title="LaTex">LaTex</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-
-                    
-                        <li><a href="http://www.fudan.edu.cn" target="_blank">Fudan University</a></li>
-                    
-                        <li><a href="http://huanrongg.github.io" target="_blank">huanrong</a></li>
-                    
-                        <li><a href="http://huanrongg.github.io" target="_blank">huanrong</a></li>
-                    
-                        <li><a href="#" target="_blank">lalala</a></li>
-                    
-                </ul>
-                
-				
-				<!--GitTalk 评论代码-->
-				
-					<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<div id="gitalk-container"></div>
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<script type="text/javascript">
-    var gitalk = new Gitalk({
-        clientID: 'fc7d18abf364daa60e4a',
-        clientSecret: '169adf9952996316c8aab63a68afa3cbfa499d37',
-        id: window.location.pathname,
-        repo: 'blog-comment',
-        owner: 'huanrongg',
-        admin: 'huanrongg'
-    })
-    gitalk.render('gitalk-container')
-</script>
-				
-            </div>
-        </div>
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#Hexo" title="Hexo" rel="2">Hexo</a>
+            
+        
+            
+            <a href="/tags/#Blog" title="Blog" rel="2">Blog</a>
+            
+        
+            
+        
+            
+        
+            
+        
     </div>
-</article>
+</section>
 
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
 
+        
+            <img id = "avatar_pic" src="/img/avatar/profile.jpg" />
+        
 
+        
+            <p>我一个狗吃饭旅行到处走走停停</p>
+        
 
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
 
+            
+                <li>
+                    <a target="_blank" href="http://weibo.com/ykgdx">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
 
+            
 
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/huanrongg">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
 
+        <hr>
+    
+        
+  <h5>近期发布</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2019/05/numpy-softmax/">使用numpy构建神经网络实现softmax多分类问题</a>
+        </li>
+      
+        <li>
+          <a href="/2019/04/CNN-case-study/">CNN Case Study</a>
+        </li>
+      
+        <li>
+          <a href="/2019/04/Autonomous-driving-Car-detection/">Autonomous driving - Car detection</a>
+        </li>
+      
+        <li>
+          <a href="/2019/04/support-LaTex-in-blog/">在Blog中支持LaTex公式</a>
+        </li>
+      
+        <li>
+          <a href="/2019/04/sequence-models-dlai/">Sequence Models</a>
+        </li>
+      
+    </ul>
+  </div>
 
+        <hr>
+    
+        <!-- Friends Blog -->
 
+<h5>友情链接</h5>
+<ul class="list-inline">
 
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'ℬ'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
+    
+        <li><a href="http://www.fudan.edu.cn" target="_blank">Fudan University</a></li>
+    
+        <li><a href="http://huanrongg.github.io" target="_blank">huanrong</a></li>
+    
+        <li><a href="http://huanrongg.github.io" target="_blank">huanrong</a></li>
+    
+        <li><a href="#" target="_blank">lalala</a></li>
+    
+</ul>
 
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li></ul>
+    </div>
 
-<!Fancybox 配置-->
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 <link rel="stylesheet" href="/css/jquery.fancybox.min.css" />
 <script src="/js/jquery.fancybox.min.js"></script>
 <script src="/js/wrapImage.js"></script>
