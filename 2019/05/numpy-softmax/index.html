@@ -304,6 +304,11 @@ $$softmax(x)<em>i = \frac{e^{x_i}}{\displaystyle\sum</em>{j=1}^{n}e^{x_j}}$$</p>
 反复测试之下，发现无论是训练集还是测试集，Accuracy都非常低，只有24%左右。这可能表示模型已经完全失效了，因为本身四选一猜对的概率就是25%。</p>
 <p>可能有这样的问题：<br>
 网络结构本身有问题，无法做分类任务</p>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML">
+</script>
 
                 
 
