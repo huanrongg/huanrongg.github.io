@@ -149,13 +149,6 @@
 
                         
                         <li>
-                            <a href="/about/">关于我</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">归档</a>
                         </li>
                         
@@ -164,6 +157,13 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">关于我</a>
                         </li>
                         
                     
@@ -304,6 +304,7 @@ $$softmax(x)<em>i = \frac{e^{x_i}}{\displaystyle\sum</em>{j=1}^{n}e^{x_j}}$$</p>
 反复测试之下，发现无论是训练集还是测试集，Accuracy都非常低，只有24%左右。这可能表示模型已经完全失效了，因为本身四选一猜对的概率就是25%。</p>
 <p>可能有这样的问题：<br>
 网络结构本身有问题，无法做分类任务</p>
+<p>$\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}$</p>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
