@@ -149,6 +149,13 @@
 
                         
                         <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">关于我</a>
                         </li>
                         
@@ -164,13 +171,6 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -268,7 +268,7 @@ softmax广泛应用于机器学习和深度学习中的多分类问题。在深�
 <ol>
 <li>
 <p>定义<br>
-$$softmax(x)<em>i = \frac{e^{x_i}}{\displaystyle\sum</em>{j=1}^{n}e^{x_j}}$$</p>
+\[softmax(x)<em>i = \frac{e^{x_i}}{\displaystyle\sum</em>{j=1}^{n}e^{x_j}}\]</p>
 </li>
 <li>
 <p>代码</p>
@@ -284,7 +284,7 @@ $$softmax(x)<em>i = \frac{e^{x_i}}{\displaystyle\sum</em>{j=1}^{n}e^{x_j}}$$</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def compute_cost(AL, Y):</span><br><span class="line">    m = Y.shape[1]</span><br><span class="line">    cost = -(np.sum(Y * np.log(AL))) / float(m)</span><br><span class="line">    #cost = np.squeeze(cost)</span><br><span class="line">    assert(cost.shape == ())</span><br><span class="line">    </span><br><span class="line">    return cost</span><br></pre></td></tr></table></figure>
 <h2 id="后向传播">后向传播</h2>
 <p>对于Softmax求导的推导过程可以参考<a href="https://blog.csdn.net/qian99/article/details/78046329" target="_blank" rel="noopener">这篇博文</a>。<br>
-简单来说\[\frac{\partial C}{\partial z_i} = a_i - y_i\]。</p>
+简单来说\(\frac{\partial C}{\partial z_i} = a_i - y_i\)。</p>
 <p>这里要特别注意dW、db以及dA_prev的求导，维度一定要对的上。</p>
 <h2 id="更新参数">更新参数</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def update_parameters(parameters, grads, learning_rate):</span><br><span class="line">    L = len(parameters) // 2 # number of layers in the neural network</span><br><span class="line"></span><br><span class="line">    # Update rule for each parameter. Use a for loop.</span><br><span class="line">    for l in range(1,L+1):</span><br><span class="line">        parameters[&apos;W&apos;+str(l)] -= learning_rate * grads[&apos;dW&apos;+str(l)]</span><br><span class="line">        parameters[&apos;b&apos;+str(l)] -= learning_rate * grads[&apos;db&apos;+str(l)]</span><br><span class="line">    </span><br><span class="line">    return parameters</span><br></pre></td></tr></table></figure>
