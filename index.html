@@ -144,6 +144,13 @@
 
                         
                         <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">关于我</a>
                         </li>
                         
@@ -152,13 +159,6 @@
                         
                         <li>
                             <a href="/gallery/">回忆</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -267,6 +267,44 @@
 
 <div class="post-preview">
 
+    <a href="/2019/05/numpy-softmax/">
+        <h2 class="post-title">
+			
+            numpy-softmax
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            思路
+
+
+使用二层神经网络，输入为8个变量，hidden layer有9个神经元（经实际测试，9个神经元效果较好，太多神经元容易过拟合），输出为维度为4的onehot编码
+由输入到hidden layer先通过一个线性函数，再用relu函数进行激活
+由hidden layer到输出使用softmax函数
+使用梯度下降法迭代一定次数，使得Cost达到最低
+
+实现
+
+
+总的来说，实现步骤可分为：......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by huanrong on
+            2019-05-06
+        </p>
+        <div class="tags">
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2019/04/CNN-case-study/">
         <h2 class="post-title">
 			
@@ -336,9 +374,9 @@ There are images gathered that hav......
         </p>
         <div class="tags">
             
-              <a href="/tags/#CV" title="CV">CV</a>
-            
               <a href="/tags/#Deep Learning" title="Deep Learning">Deep Learning</a>
+            
+              <a href="/tags/#CV" title="CV">CV</a>
             
         </div>
     
@@ -370,9 +408,9 @@ Sequences are a data structure where each example could be seen as a series of 
         </p>
         <div class="tags">
             
-              <a href="/tags/#Deep Learning" title="Deep Learning">Deep Learning</a>
-            
               <a href="/tags/#NLP" title="NLP">NLP</a>
+            
+              <a href="/tags/#Deep Learning" title="Deep Learning">Deep Learning</a>
             
         </div>
     
@@ -509,16 +547,6 @@ I publish the whole ......
     <div class="tags">
         
             
-            <a href="/tags/#CV" title="CV" rel="2">CV</a>
-            
-        
-            
-            <a href="/tags/#Deep Learning" title="Deep Learning" rel="2">Deep Learning</a>
-            
-        
-            
-        
-            
             <a href="/tags/#Hexo" title="Hexo" rel="2">Hexo</a>
             
         
@@ -528,6 +556,16 @@ I publish the whole ......
         
             
         
+            
+            <a href="/tags/#Deep Learning" title="Deep Learning" rel="2">Deep Learning</a>
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#CV" title="CV" rel="2">CV</a>
             
         
             
@@ -596,6 +634,10 @@ I publish the whole ......
     <ul>
       
         <li>
+          <a href="/2019/05/numpy-softmax/">numpy-softmax</a>
+        </li>
+      
+        <li>
           <a href="/2019/04/CNN-case-study/">CNN Case Study</a>
         </li>
       
@@ -609,10 +651,6 @@ I publish the whole ......
       
         <li>
           <a href="/2019/04/sequence-models-dlai/">Sequence Models</a>
-        </li>
-      
-        <li>
-          <a href="/2018/11/python-basic/">使用Python遇到的问题</a>
         </li>
       
     </ul>
@@ -641,7 +679,7 @@ I publish the whole ......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li></ul>
     </div>
 
         <hr>
